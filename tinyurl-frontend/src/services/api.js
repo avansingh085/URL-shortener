@@ -1,7 +1,8 @@
 
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL =import.meta.env.VITE_BACKEND_URL;
 
 export const fetchTinyUrls = async () => {
+    console.log(API_BASE_URL)
     const response = await fetch(`${API_BASE_URL}/api/links`);
     if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);

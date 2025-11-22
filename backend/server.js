@@ -8,9 +8,9 @@ const app=express();
 
 // Middleware
 app.use(cors({
-    origin: '*',
-    
+    origin: 'https://url-shortener-orpin-chi.vercel.app'
 }));
+
 app.use(express.json());
 
 
