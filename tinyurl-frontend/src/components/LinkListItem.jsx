@@ -32,7 +32,7 @@ const LinkListItem = ({ link, onLinkDeleted }) => {
                 <p className="mt-1">
                     <span className="font-semibold">Tiny URL:</span>
                     <a href={fullTinyUrl} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline ml-1">
-                        {"https://localhost:5173/"+link.ShortCode}
+                        {window.location+"/"+link.ShortCode}
                     </a>
                 </p>
                 <p className="text-sm text-gray-500 mt-1">
