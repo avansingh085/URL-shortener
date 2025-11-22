@@ -3,7 +3,7 @@ import { getBaseUrl } from '../services/api';
 
 const RedirectHandler = () => {
     const [status, setStatus] = useState('Loading...');
-    const [shortCode, setShortCode] = useState(null);
+    const [shortCode, setShortCode] = useState('-----');
     const API_BASE_URL = getBaseUrl();
 
     useEffect(() => {
@@ -11,7 +11,7 @@ const RedirectHandler = () => {
         const code = window.location.pathname.substring(1); 
         
         if (!code) {
-           
+             setShortCode(null);
             setStatus("Redirecting to dashboard...");
             window.location.hash = '#dashboard';
             return;
