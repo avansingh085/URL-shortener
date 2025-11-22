@@ -1,16 +1,35 @@
-# React + Vite
+#  TinyLink Frontend Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the frontend implementation for the **TinyLink URL Shortener**, built using **React** and styled with **Tailwind CSS**. The application features a **modular structure**, client-side routing, and dedicated components for handling core URL shortening features.
 
-Currently, two official plugins are available:
+***
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Key Features & Technical Highlights
 
-## React Compiler
+This project demonstrates several key features crucial for a scalable full-stack application:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* **Modular Architecture:** The codebase is cleanly separated into `components`, `pages`, and `services` for enhanced maintainability.
+* **Hybrid Routing Strategy:**
+    * **Path Routing (Redirect Handler):** The application uses the URL **pathname** (e.g., `/shortcode`) to render the **`<RedirectHandler />`**, allowing the frontend to intercept and process short links efficiently.
+    * **Hash Routing (App Navigation):** Uses the URL **hash** (e.g., `#/dashboard`, `#/health`, `#/CODE`) for navigating the main application tabs.
+* **Custom Link Creation:** Users can specify a **custom short code** during link creation, with client-side validation and dedicated handling for **409 Conflict** (code already in use) API responses.
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+***
+
+##  Installation and Setup
+
+Follow these steps to get the project running locally.
+
+### 1. Prerequisites
+
+Ensure you have **Node.js** (v18+) and **npm** installed.
+
+### 2. Frontend Installation
+
+Clone the repository and install the dependencies:
+
+```bash
+git clone https://github.com/avansingh085/URL-shortener.git
+cd tinyurl-frontend
+npm install   
