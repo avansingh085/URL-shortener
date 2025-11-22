@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-const DB_URI = process.env.DB_URI || 'mongodb://localhost:27017/tinylinkdb';
+dotenv.config();
+const DB_URI = process.env.DB_URI ;
 
  const connectToDatabase = async () => {
     try {
