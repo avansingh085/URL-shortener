@@ -1,17 +1,22 @@
 
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Home, HeartPulse, Menu, X } from 'lucide-react';
 
 const navItems = [
-    { name: 'Dashboard', icon: Home, href: '#dashboard' },
-    { name: 'Health', icon: HeartPulse, href: '#health' },
+    { name: 'Dashboard', icon: Home, path: '/' },
+    { name: 'Health', icon: HeartPulse, path: '/health' },
 ];
 
-const NavigationBar = ({ activeTab, onTabClick, isMenuOpen, onMenuToggle }) => {
+const NavigationBar = ({ isMenuOpen, onMenuToggle }) => {
+    const location = useLocation();
 
-    const getLinkClasses = (name) => {
+    const getLinkClasses = (path) => {
         const baseClasses = 'flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200';
-        if (name === activeTab) {
+       
+        const isActive = location.pathname === path || (path === '/' && location.pathname === '/');
+        
+        if (isActive) {
             return `${baseClasses} bg-indigo-600 text-white shadow-md hover:bg-indigo-700`;
         }
         return `${baseClasses} text-indigo-200 hover:bg-gray-700 hover:text-white`;
@@ -23,30 +28,26 @@ const NavigationBar = ({ activeTab, onTabClick, isMenuOpen, onMenuToggle }) => {
                 <div className="flex justify-between items-center h-16">
                     
                     <div className="flex-shrink-0 flex items-center">
-                        <span className="text-xl font-bold text-white tracking-wider">
+                        <Link to="/" className="text-xl font-bold text-white tracking-wider">
                             <HeartPulse className="inline-block w-6 h-6 mr-2 text-indigo-400" />
                             TinyLink
-                        </span>
+                        </Link>
                     </div>
 
                     <div className="hidden sm:ml-6 sm:flex sm:space-x-4">
                         {navItems.map((item) => (
-                            <a
+                            <Link
                                 key={item.name}
-                                href={item.href}
-                                className={getLinkClasses(item.name)}
-                                onClick={(e) => {
-                                    e.preventDefault(); 
-                                    onTabClick(item.name);
-                                }}
+                                to={item.path}
+                                className={getLinkClasses(item.path)}
                             >
                                 <item.icon className="w-5 h-5" />
                                 <span>{item.name}</span>
-                            </a>
+                            </Link>
                         ))}
                     </div>
 
-                  
+                    
                     <div className="sm:hidden">
                         <button
                             onClick={onMenuToggle}
@@ -68,18 +69,15 @@ const NavigationBar = ({ activeTab, onTabClick, isMenuOpen, onMenuToggle }) => {
                 <div className="sm:hidden pb-4">
                     <div className="px-2 pt-2 space-y-1">
                         {navItems.map((item) => (
-                            <a
+                            <Link
                                 key={item.name}
-                                href={item.href}
-                                className={getLinkClasses(item.name) + ' block text-base'}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    onTabClick(item.name);
-                                }}
+                                to={item.path}
+                                className={getLinkClasses(item.path) + ' block text-base'}
+                                onClick={onMenuToggle} 
                             >
                                 <item.icon className="w-6 h-6" />
                                 <span>{item.name}</span>
-                            </a>
+                            </Link>
                         ))}
                     </div>
                 </div>

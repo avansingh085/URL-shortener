@@ -1,53 +1,50 @@
+
 import React, { useState, useEffect } from 'react';
 import { getBaseUrl } from '../services/api';
+import { useParams } from 'react-router-dom';
 
 const RedirectHandler = () => {
+    const { code } = useParams(); 
     const [status, setStatus] = useState('Loading...');
-    const [shortCode, setShortCode] = useState('-----');
+    const [shortCode, setShortCode] = useState(code || '-----');
     const API_BASE_URL = getBaseUrl();
 
     useEffect(() => {
-       
-        const code = window.location.pathname.substring(1); 
-        
-        if (!code) {
-             setShortCode(null);
-            setStatus("Redirecting to dashboard...");
-            window.location.hash = '#dashboard';
-            return;
-        }
-
-        setShortCode(code);
         
         const fetchAndRedirect = async () => {
-            const endpoint = `${API_BASE_URL}/api/links/${code}`; 
-            
+            if (!code) {
+               
+                setStatus("Redirecting to dashboard...");
+                window.location.replace('/');
+                return;
+            }
+
             setStatus(`Looking up shortcode: /${code}`);
 
             try {
               
+                const endpoint = `${API_BASE_URL}/api/links/${code}`; 
                 const response = await fetch(endpoint, {
                     method: 'GET',
-                      headers: {
-            'Content-Type': 'application/json',
-        }
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
                 });
                
                 if (response.status === 302) {
                     const data = await response.json();
-                    console.log(data);
                     const targetUrl = data.url; 
-                   
+                    
                     if (targetUrl) {
                         setStatus(`Found target URL. Redirecting to: ${targetUrl}`);
-                     
+                      
                         window.location.replace(targetUrl);
                     } else {
                         throw new Error("Invalid response structure from API.");
                     }
 
                 } else if (response.status === 404) {
-                  
+                    
                     setStatus(`Error: Shortcode '/${code}' does not exist.`);
                     setShortCode(null);
                 } else {
@@ -63,7 +60,7 @@ const RedirectHandler = () => {
         };
 
         fetchAndRedirect();
-    }, []); 
+    }, [code, API_BASE_URL]); 
 
     if (shortCode === null) {
       
@@ -76,7 +73,7 @@ const RedirectHandler = () => {
                         The short code you requested is invalid or does not exist.
                     </p>
                     <button
-                        onClick={() => window.location = '/'}
+                        onClick={() => window.location.replace('/')}
                         className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150"
                     >
                         Go to TinyLink Dashboard
@@ -86,7 +83,7 @@ const RedirectHandler = () => {
         );
     }
 
-  
+ 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gray-100">
             <div className="text-center bg-white p-8 rounded-xl shadow-lg">

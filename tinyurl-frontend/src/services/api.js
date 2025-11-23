@@ -8,6 +8,7 @@ export const fetchTinyUrls = async () => {
         throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data = await response.json();
+    
     return data.links ?? [];
 };
 
@@ -20,7 +21,7 @@ export const deleteTinyUrl = async (linkId) => {
         const data = await response.json();
         throw new Error(data.error || `Deletion failed with status: ${response.status}`);
     }
-   
+    
 };
 
 

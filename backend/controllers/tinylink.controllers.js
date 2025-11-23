@@ -80,7 +80,9 @@ class TinyLinkController {
             }
             await link.save();
 
-        return res.status(302).json({url:link.TargetURL});
+
+
+        return res.status(302).json({url:link.TargetURL,ShortCode:link.ShortCode,TotalClicks:link.TotalClicks,createdAt:link.createdAt,updatedAt:link.updatedAt});
          }catch(error){
             console.error("Error during redirection:", error);
             return res.status(500).send({ "error": "Internal Server Error" });

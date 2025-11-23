@@ -1,88 +1,54 @@
-// src/App.jsx
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
+import Footer from './components/Footer';
 import DashboardPage from './pages/Dashboard.jsx';
 import HealthPage from './pages/HealthPage';
-import NotFoundPage from './pages/PageNotFound';
-import RedirectHandler from './components/RedirectHandler.jsx'; // Import the new handler
 
-const isShortcodePath = () => {
-    
-    const path = window.location.pathname;
-    return path.length > 1 && path !== '/index.html'; 
-};
+import RedirectHandler from './components/RedirectHandler.jsx';
+import PageNotFound from './pages/PageNotFound.jsx';
+import LinkStatsPage from './Pages/StatsPage.jsx';
 
-const getTabFromHash = (hash) => {
-    switch (hash) {
-        case '#dashboard':
-            return 'Dashboard';
-        case '#health':
-            return 'Health';
-        default:
-            return 'Dashboard';
-    }
-};
-
-const App = () => {
-    const [activeTab, setActiveTab] = useState(getTabFromHash(window.location.hash));
+const AppContent = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const location = useLocation();
 
-    useEffect(() => {
-        const handleHashChange = () => {
-           
-            if (!isShortcodePath()) {
-                setActiveTab(getTabFromHash(window.location.hash));
-            }
-        };
+    const isPotentialRedirect = location.pathname.length > 1 &&
+        !['/health', '/code', '/index.html'].some(route => location.pathname.startsWith(route));
 
-        window.addEventListener('hashchange', handleHashChange);
-        return () => window.removeEventListener('hashchange', handleHashChange);
-    }, []);
-
-    const handleTabClick = (tabName) => {
-        setActiveTab(tabName);
-        window.location.hash = tabName.toLowerCase();
-        setIsMenuOpen(false); 
-    };
-    
-    
-    const handleMenuToggle = () => { 
-        setIsMenuOpen(prev => !prev);
-    };
-
-    const renderPage = () => {
-        switch (activeTab) {
-            case 'Dashboard':
-                return <DashboardPage />;
-            case 'Health':
-                return <HealthPage />;
-            default:
-                
-                return <NotFoundPage onGoHome={() => handleTabClick('Dashboard')} />;
-        }
-    };
-
-  
-    if (isShortcodePath()) {
-       
+    if (isPotentialRedirect) {
         return <RedirectHandler />;
     }
-   
+
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-100 flex flex-col">
             <NavigationBar
-                activeTab={activeTab}
-                onTabClick={handleTabClick}
                 isMenuOpen={isMenuOpen}
-                onMenuToggle={handleMenuToggle}
+                onMenuToggle={() => setIsMenuOpen(prev => !prev)}
             />
-            <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+
+            <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 flex-grow w-full">
                 <div className="px-4 py-6 sm:px-0">
-                    {renderPage()}
+                    <Routes>
+                        <Route path="/" element={<DashboardPage />} />
+                        <Route path="/health" element={<HealthPage />} />
+                        <Route path="/code/:code" element={<LinkStatsPage />} />
+
+                        <Route path="*" element={<Navigate to="/PageNotFound" element={<PageNotFound/>} />} />
+                    </Routes>
                 </div>
             </main>
+
+            <Footer />
         </div>
     );
 };
+
+const App = () => (
+    <Router>
+        <AppContent />
+    </Router>
+);
 
 export default App;

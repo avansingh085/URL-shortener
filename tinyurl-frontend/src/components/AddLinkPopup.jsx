@@ -14,7 +14,7 @@ const AddLinkPopup = ({ onClose, onLinkCreated }) => {
         setSubmitMessage({ type: 'loading', text: 'Creating Tiny URL...' });
 
         try {
-           
+            
             await createTinyUrl({TargetURL:newOriginalUrl,customCode: customCode.trim()}); 
 
             setSubmitMessage({ type: 'success', text: 'Tiny URL created successfully!' });
@@ -38,7 +38,7 @@ const AddLinkPopup = ({ onClose, onLinkCreated }) => {
             } else if (err.message.includes('Invalid URL') || err.message.includes('Validation') || err.message.includes('400')) {
                 errorMessage = "Invalid Original URL or custom code provided. Check format.";
             }
-           
+            
             setSubmitMessage({ type: 'error', text: errorMessage });
         } finally {
           
@@ -77,7 +77,7 @@ const AddLinkPopup = ({ onClose, onLinkCreated }) => {
                         />
                     </div>
                     
-                   
+                    
                     <div className="mb-6">
                         <label htmlFor="customCode" className="block text-sm font-medium text-gray-700 mb-1">Custom Short Code (Optional)</label>
                         <div className="flex">
@@ -88,7 +88,7 @@ const AddLinkPopup = ({ onClose, onLinkCreated }) => {
                                 id="customCode"
                                 type="text"
                                 value={customCode}
-                               
+                                
                                 onChange={(e) => setCustomCode(e.target.value.replace(/[^a-zA-Z0-9_-]/g, ''))}
                                 placeholder="e.g., my-project-link"
                                 className="flex-1 w-full p-2 border border-gray-300 rounded-r-lg focus:ring-indigo-500 focus:border-indigo-500"
@@ -97,7 +97,7 @@ const AddLinkPopup = ({ onClose, onLinkCreated }) => {
                         </div>
                         <p className="mt-1 text-xs text-gray-500">Only letters, numbers, hyphens, and underscores are allowed.</p>
                     </div>
-                 
+                  
                     <button
                         type="submit"
                         disabled={isSubmitting}
@@ -116,7 +116,7 @@ const AddLinkPopup = ({ onClose, onLinkCreated }) => {
                     </button>
                 </form>
 
-               
+                
                 {submitMessage.text && submitMessage.type !== 'loading' && (
                     <div className={`mt-4 p-3 rounded-lg text-center ${
                         submitMessage.type === 'success'
