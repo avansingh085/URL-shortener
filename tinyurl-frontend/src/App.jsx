@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
@@ -13,13 +12,7 @@ import LinkStatsPage from './pages/StatsPage.jsx';
 const AppContent = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();
-
-    const isPotentialRedirect = location.pathname.length > 1 &&
-        !['/health', '/code', '/index.html'].some(route => location.pathname.startsWith(route));
-
-    if (isPotentialRedirect) {
-        return <RedirectHandler />;
-    }
+    
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -34,8 +27,8 @@ const AppContent = () => {
                         <Route path="/" element={<DashboardPage />} />
                         <Route path="/health" element={<HealthPage />} />
                         <Route path="/code/:code" element={<LinkStatsPage />} />
-
-                        <Route path="*" element={<Navigate to="/PageNotFound" element={<PageNotFound />} />} />
+                        <Route path="/:code" element={<RedirectHandler />} />
+                        <Route path="*" element={<PageNotFound />} />
                     </Routes>
                 </div>
             </main>

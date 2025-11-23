@@ -34,7 +34,7 @@ const RedirectHandler = () => {
                 if (response.status === 302) {
                     const data = await response.json();
                     const targetUrl = data.url; 
-                    
+                    console.log("Redirection target URL:", targetUrl);
                     if (targetUrl) {
                         setStatus(`Found target URL. Redirecting to: ${targetUrl}`);
                       
@@ -61,6 +61,8 @@ const RedirectHandler = () => {
 
         fetchAndRedirect();
     }, [code, API_BASE_URL]); 
+
+    
 
     if (shortCode === null) {
       
