@@ -4,11 +4,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import NavigationBar from './components/NavigationBar';
 import Footer from './components/Footer';
 import DashboardPage from './pages/Dashboard.jsx';
-import HealthPage from './pages/HealthPage';
+import HealthPage from './pages/HealthPage.jsx';
 
 import RedirectHandler from './components/RedirectHandler.jsx';
 import PageNotFound from './pages/PageNotFound.jsx';
-import LinkStatsPage from './Pages/StatsPage.jsx';
+import LinkStatsPage from './pages/StatsPage.jsx';
 
 const AppContent = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,7 +35,7 @@ const AppContent = () => {
                         <Route path="/health" element={<HealthPage />} />
                         <Route path="/code/:code" element={<LinkStatsPage />} />
 
-                        <Route path="*" element={<Navigate to="/PageNotFound" element={<PageNotFound/>} />} />
+                        <Route path="*" element={<Navigate to="/PageNotFound" element={<PageNotFound />} />} />
                     </Routes>
                 </div>
             </main>
